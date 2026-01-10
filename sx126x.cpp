@@ -285,6 +285,22 @@ void sx126x::reset(void) {
   }
 }
 
+void sx126x::setDCDCRegulator(void) {
+  // Documentation
+  // 5. Power Distribution -> 5.1 Selecting DC-DC Converter or LDO Regulation
+  // 13.1.11 SetRegulatorMode
+
+  uint8_t mode_byte = MODE_STDBY_RC_6X;
+  executeOpcode(OP_STANDBY_6X, &mode_byte, 1);
+
+  // Enable DC-DC regulator for high power operation
+  uint8_t reg_mode = 0x01; // 0x00 = LDO, 0x01 = DC-DC
+  executeOpcode(OP_REGULATOR_MODE_6X, &reg_mode, 1);
+  
+  delay(5);
+  waitOnBusy();
+}
+
 void sx126x::calibrate(void) {
   // Put in STDBY_RC mode before calibration
   uint8_t mode_byte = MODE_STDBY_RC_6X;
@@ -315,6 +331,11 @@ int sx126x::begin(long frequency) {
   if (_busy != -1) { pinMode(_busy, INPUT); }
   if (!_preinit_done) { if (!preInit()) { return false; } }
   if (_rxen != -1) { pinMode(_rxen, OUTPUT); }
+
+  //TODO: if it works, make it optional
+  //#ifdef SX1262_USE_DCDC_REGULATOR
+    setDCDCRegulator();
+  //#endif
 
   calibrate();
   calibrate_image(frequency);

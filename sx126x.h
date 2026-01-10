@@ -74,6 +74,7 @@ public:
   void disableCrc();
   void enableTCXO();
   void disableTCXO();
+  void setDCDCRegulator();
 
   void rxAntEnable();
   void loraMode();
