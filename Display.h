@@ -96,6 +96,11 @@
   #define SCL_OLED 6
   #define SDA_OLED 5
   #define DISP_CUSTOM_ADDR true
+#elif BOARD_MODEL == BOARD_PROMICRO
+  #define DISP_RST -1
+  #define DISP_ADDR 0x3C
+  #define SCL_OLED 7
+  #define SDA_OLED 8
 #else
   #define DISP_RST -1
   #define DISP_ADDR 0x3C
@@ -323,6 +328,9 @@ bool display_init() {
       Wire.begin(SDA_OLED, SCL_OLED);
     #elif BOARD_MODEL == BOARD_XIAO_S3
       Wire.begin(SDA_OLED, SCL_OLED);
+    #elif BOARD_MODEL == BOARD_PROMICRO
+      Wire.setPins(SDA_OLED, SCL_OLED);
+      Wire.begin();
     #endif
 
     #if HAS_EEPROM

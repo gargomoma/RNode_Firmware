@@ -122,6 +122,10 @@
   #define MODEL_FE            0xFE // Homebrew board, max 17dBm output power
   #define MODEL_FF            0xFF // Homebrew board, max 14dBm output power
 
+  #define PRODUCT_PROMICRO	  0xF2
+  #define BOARD_PROMICRO	    0xF1
+  #define MODEL_FA            0xFA // 868/915 MHz ie: HT-RA62 / e22
+
   #if defined(__AVR_ATmega1284P__)
     #define PLATFORM PLATFORM_AVR
     #define MCU_VARIANT MCU_1284P
@@ -886,6 +890,64 @@
       const int DISPLAY_CLK = PIN_T114_TFT_SCK;
       const int DISPLAY_BL_PIN = PIN_T114_TFT_BLGT;
       const int DISPLAY_RST = PIN_T114_TFT_RST;
+
+    #elif BOARD_MODEL == BOARD_PROMICRO
+      //TODO:
+      // - Fix low output power
+      // - Make compatible with non-TCXO radios
+      // - Add PMU
+      #define MODEM SX1262
+      #define HAS_EEPROM false
+      #define HAS_BLUETOOTH false
+      #define HAS_BLE true
+      #define HAS_CONSOLE false
+      #define HAS_PMU false
+      #define HAS_NP false
+      #define HAS_SD false
+      #define HAS_TCXO true
+      #define HAS_BUSY true
+      #define HAS_RF_SWITCH_RX_TX true
+      #define DIO2_AS_RF_SWITCH true
+      #define OCP_TUNED 0x38
+      #define HAS_SLEEP false
+      #define BLE_MANUFACTURER "DIY"
+      #define BLE_MODEL "ProMicro"
+
+      #define HAS_INPUT true
+      #define EEPROM_SIZE 296
+      #define EEPROM_OFFSET EEPROM_SIZE-EEPROM_RESERVED
+
+      #define CONFIG_UART_BUFFER_SIZE 6144
+      #define CONFIG_QUEUE_SIZE 6144
+      #define CONFIG_QUEUE_MAX_LENGTH 200
+
+      //Confused with the pin numbers??
+      //https://github.com/pdcook/nRFMicro-Arduino-Core/blob/a83161e619da8668f726b52578a3dd89c1ef5956/variants/nice_nano/variant.h#L59
+
+      #define HAS_DISPLAY true
+      #define I2C_SDA 8 //P1.04
+      #define I2C_SCL 7 //P0.11
+
+      #define LED_ON LOW
+      #define LED_OFF HIGH
+      #define PIN_LED_RED   22 //P0.15
+      const int pin_led_rx = PIN_LED_RED;
+      const int pin_led_tx = PIN_LED_RED;
+      
+      #define PIN_VEXT_EN 21 //P0.13
+
+      const int pin_btn_usr1 = 6; //P1.00
+
+      const int pin_reset = 10; //P0.09
+      const int pin_cs    = 13; //P1.13
+      const int pin_sclk  = 12; //P1.11
+      const int pin_mosi  = 14; //P1.15
+      const int pin_miso  = 15; //P0.02
+      const int pin_busy  = 16; //P0.29
+      const int pin_dio   = 11; //P0.10 
+      const int pin_tcxo_enable = -1;
+      const int pin_rxen = 2; //P0.17
+      const int pin_txen = -1;
 
     #else
       #error An unsupported nRF board was selected. Cannot compile RNode firmware.

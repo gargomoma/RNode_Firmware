@@ -5,3 +5,7 @@ board_manager:
   - https://github.com/HelTecAutomation/Heltec_nRF52/releases/download/1.7.0/package_heltec_nrf_index.json
   - https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
   - http://unsigned.io/arduino/package_unsignedio_UnsignedBoards_index.json
+## proMicro
+#  - https://raw.githubusercontent.com/pdcook/nRFMicro-Arduino-Core/main/package_nRFMicro_index.json #can't use it bc the name has spaces, i created the file below
+  - https://gist.githubusercontent.com/gargomoma/b5cffc40e5df88462f2b488492feb6ca/raw/198c5706289014dd64be31607495e02f056d52a3/nrf_cli_fix.json
+  - https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
