@@ -339,7 +339,14 @@ int sx126x::begin(long frequency) {
 
   calibrate();
   calibrate_image(frequency);
-  enableTCXO();
+
+  #if HAS_TCXO
+    enableTCXO();
+    //13.1.15 SetRxTxFallbackMode to STDBY_XOSC
+    uint8_t fallback_mode = 0x30; // STDBY_XOSC after TX/RX
+    executeOpcode(OP_RX_TX_FALLBACK_MODE_6X, &fallback_mode, 1);
+  #endif
+  
   loraMode();
   standby();
 
